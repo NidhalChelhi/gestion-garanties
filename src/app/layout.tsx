@@ -5,6 +5,7 @@ import "@/css/style.css";
 import React, { useEffect, useState } from "react";
 import Loader from "@/components/common/Loader";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
+import { Toaster } from "react-hot-toast";
 
 export default function RootLayout({
   children,
@@ -22,6 +23,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body suppressHydrationWarning={true}>
+        <Toaster />
+
         {loading ? <Loader /> : <DefaultLayout>{children} </DefaultLayout>}
       </body>
     </html>

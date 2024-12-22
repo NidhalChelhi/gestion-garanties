@@ -1,0 +1,137 @@
+"use client";
+
+import { useForm, Controller } from "react-hook-form";
+import InputGroup from "@/components/FormElements/InputGroup";
+import SelectGroup from "@/components/FormElements/SelectGroup";
+import DatePicker from "@/components/FormElements/DatePicker";
+import { tiersPersonnePhysiqueFields } from "@/data/tiersPersonnePhysiqueFields";
+import { createTiersPersonnePhysique } from "@/lib/TiersPersonnePhysique.action";
+import toast from "react-hot-toast";
+
+interface FormValues {
+  [key: string]: string | number | null;
+}
+
+const AddPersonnePhysiqueForm = () => {
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+    reset,
+  } = useForm<FormValues>({
+    defaultValues: tiersPersonnePhysiqueFields.reduce((acc, section) => {
+      section.inputs.forEach((input) => {
+        acc[input.name] = input.defaultValue || null; // Ensure proper default values
+      });
+      return acc;
+    }, {} as FormValues),
+  });
+
+  const onSubmit = async (data: FormValues) => {
+    // Normalize empty string values to null for API compatibility
+    const normalizedData = Object.fromEntries(
+      Object.entries(data).map(([key, value]) => [
+        key,
+        value === "" ? null : value,
+      ]),
+    );
+
+    try {
+      await createTiersPersonnePhysique(normalizedData);
+      toast.success("Personne physique ajoutée avec succès !");
+      // clear form
+      reset();
+    } catch (error: unknown) {
+      const errorMessage =
+        (error as { message?: string })?.message ||
+        "Une erreur s'est produite.";
+      toast.error(`Erreur: ${errorMessage}`);
+    }
+  };
+
+  return (
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="rounded-[10px] border border-stroke bg-white p-6.5 shadow-1 dark:border-dark-3 dark:bg-gray-dark dark:shadow-card"
+    >
+      {tiersPersonnePhysiqueFields.map((section) => (
+        <section key={section.section} className="mb-6">
+          <h3 className="mb-6 text-xl font-semibold text-dark dark:text-white">
+            {section.section}
+          </h3>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
+            {section.inputs.map((input) => (
+              <Controller
+                key={input.name}
+                name={input.name}
+                control={control}
+                rules={{
+                  required: input.mandatory
+                    ? `${input.label} est requis`
+                    : false,
+                }}
+                render={({ field }) => {
+                  const error = errors[input.name]?.message;
+
+                  if (input.type === "text" || input.type === "number") {
+                    return (
+                      <InputGroup
+                        {...field}
+                        name={input.name}
+                        value={field.value ?? ""}
+                        label={input.label}
+                        type={input.type}
+                        placeholder={`Entrer ${input.label}`}
+                        required={input.mandatory}
+                        error={error as string}
+                      />
+                    );
+                  }
+
+                  if (input.type === "select") {
+                    return (
+                      <SelectGroup
+                        {...field}
+                        name={input.name}
+                        value={field.value}
+                        label={input.label}
+                        optionsUrl={input.api}
+                        placeholder={`Sélectionner ${input.label}`}
+                        required={input.mandatory}
+                        error={error as string}
+                      />
+                    );
+                  }
+
+                  if (input.type === "date") {
+                    return (
+                      <DatePicker
+                        id={input.name}
+                        value={field.value as string | null}
+                        onChange={(date) => field.onChange(date)}
+                        label={input.label}
+                        placeholder={`Sélectionner ${input.label}`}
+                        required={input.mandatory}
+                        error={error as string}
+                      />
+                    );
+                  }
+
+                  return <div />; // Fallback to avoid null
+                }}
+              />
+            ))}
+          </div>
+        </section>
+      ))}
+      <button
+        type="submit"
+        className="hover:bg-primary-dark mt-6 w-full rounded bg-primary py-3 font-medium text-white"
+      >
+        Soumettre
+      </button>
+    </form>
+  );
+};
+
+export default AddPersonnePhysiqueForm;

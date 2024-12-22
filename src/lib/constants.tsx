@@ -18,8 +18,8 @@ export const menuGroups = [
         label: "Réferentiel Tiers",
         route: "#",
         children: [
-          { label: "Personne Physique", route: "/" },
-          { label: "Personne Morale", route: "/a" },
+          { label: "Personne Physique", route: "/tiers-personne-physique" },
+          { label: "Personne Morale", route: "/tiers-personne-morale" },
           { label: "Fiche Tiers", route: "/b" },
         ],
       },
