@@ -5,7 +5,7 @@ import InputGroup from "@/components/FormElements/InputGroup";
 import SelectGroup from "@/components/FormElements/SelectGroup";
 import DatePicker from "@/components/FormElements/DatePicker";
 import { tiersPersonnePhysiqueFields } from "@/data/tiersPersonnePhysiqueFields";
-import { createTiersPersonnePhysique } from "@/lib/TiersPersonnePhysique.action";
+import { createTiersPersonnePhysique } from "@/actions/tiersPersonnePhysique";
 import toast from "react-hot-toast";
 
 interface FormValues {

@@ -5,7 +5,7 @@ import SearchForm from "@/components/Header/SearchForm";
 import ButtonDefault from "@/components/Buttons/ButtonDefault";
 import { PlusCircle } from "lucide-react";
 import DataTable from "./_components/DataTable";
-import { getAllTiersPersonnePhysique } from "@/lib/TiersPersonnePhysique.action";
+import { getAllTiersPersonnePhysique } from "@/actions/tiersPersonnePhysique";
 import { TiersPersonnePhysique } from "@/types/TiersPersonnePhysique";
 
 export const metadata: Metadata = {

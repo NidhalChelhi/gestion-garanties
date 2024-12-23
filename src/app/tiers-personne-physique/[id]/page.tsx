@@ -1,5 +1,5 @@
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
-import { getTiersPersonnePhysiqueById } from "@/lib/TiersPersonnePhysique.action";
+import { getTiersPersonnePhysiqueById } from "@/actions/tiersPersonnePhysique";
 import { Metadata } from "next";
 import { GetServerSidePropsContext } from "next";
 import React from "react";
