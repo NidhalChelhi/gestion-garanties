@@ -61,3 +61,26 @@ export const filterTiersPersonnePhysique = (
     api.post(API_ENDPOINTS.TIERS_PERSONNE_PHYSIQUE.FILTER, filter),
   );
 };
+
+export interface Option {
+  value: string | number;
+  label: string;
+}
+
+/**
+ * Fetch options for a select input
+ * @param url - The API endpoint to fetch options
+ * @returns {Promise<Option[]>}
+ */
+export const fetchSelectOptions = async (url: string): Promise<Option[]> => {
+  try {
+    const response = await apiCall(api.get(url));
+    return response.map((item: { Code: string | number; Label: string }) => ({
+      value: item.Code,
+      label: item.Label,
+    }));
+  } catch (error) {
+    console.error(`Error fetching options from ${url}:`, error);
+    return [];
+  }
+};

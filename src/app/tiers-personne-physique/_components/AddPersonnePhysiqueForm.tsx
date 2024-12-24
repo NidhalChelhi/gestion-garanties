@@ -1,3 +1,4 @@
+// app/tiers-personne-physique/_components/AddPersonnePhysiqueForm.tsx
 "use client";
 
 import { useForm, Controller } from "react-hook-form";
@@ -5,14 +6,21 @@ import InputGroup from "@/components/FormElements/InputGroup";
 import SelectGroup from "@/components/FormElements/SelectGroup";
 import DatePicker from "@/components/FormElements/DatePicker";
 import { tiersPersonnePhysiqueFields } from "@/data/tiersPersonnePhysiqueFields";
-import { createTiersPersonnePhysique } from "@/actions/tiersPersonnePhysique";
+import {
+  createTiersPersonnePhysique,
+  Option,
+} from "@/actions/tiersPersonnePhysique";
 import toast from "react-hot-toast";
 
 interface FormValues {
   [key: string]: string | number | null;
 }
 
-const AddPersonnePhysiqueForm = () => {
+const AddPersonnePhysiqueForm = ({
+  optionsMap,
+}: {
+  optionsMap: Record<string, Option[]>;
+}) => {
   const {
     handleSubmit,
     control,
@@ -21,14 +29,13 @@ const AddPersonnePhysiqueForm = () => {
   } = useForm<FormValues>({
     defaultValues: tiersPersonnePhysiqueFields.reduce((acc, section) => {
       section.inputs.forEach((input) => {
-        acc[input.name] = input.defaultValue || null; // Ensure proper default values
+        acc[input.name] = input.defaultValue || null;
       });
       return acc;
     }, {} as FormValues),
   });
 
   const onSubmit = async (data: FormValues) => {
-    // Normalize empty string values to null for API compatibility
     const normalizedData = Object.fromEntries(
       Object.entries(data).map(([key, value]) => [
         key,
@@ -39,7 +46,6 @@ const AddPersonnePhysiqueForm = () => {
     try {
       await createTiersPersonnePhysique(normalizedData);
       toast.success("Personne physique ajoutée avec succès !");
-      // clear form
       reset();
     } catch (error: unknown) {
       const errorMessage =
@@ -95,7 +101,7 @@ const AddPersonnePhysiqueForm = () => {
                         name={input.name}
                         value={field.value}
                         label={input.label}
-                        optionsUrl={input.api}
+                        options={optionsMap[input.name] || []}
                         placeholder={`Sélectionner ${input.label}`}
                         required={input.mandatory}
                         error={error as string}
@@ -117,7 +123,7 @@ const AddPersonnePhysiqueForm = () => {
                     );
                   }
 
-                  return <div />; // Fallback to avoid null
+                  return <div />;
                 }}
               />
             ))}

@@ -1,6 +1,3 @@
-const BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL || "http://197.0.115.121/api";
-
 export const tiersPersonnePhysiqueFields = [
   {
     section: "Information Générale",
@@ -9,7 +6,6 @@ export const tiersPersonnePhysiqueFields = [
         name: "Id_Civilite",
         label: "Civilité",
         type: "select",
-        api: `${BASE_URL}/Tiers/Civilite/List?Include_Empty_Row=False`,
         mandatory: true,
       },
       {
@@ -52,7 +48,6 @@ export const tiersPersonnePhysiqueFields = [
         name: "Code_Pays_Naissance",
         label: "Pays",
         type: "select",
-        api: `${BASE_URL}/Geo/Pays/List?Include_Empty_Row=False`,
         mandatory: true,
         defaultValue: "TUN", // Retained
       },
@@ -60,7 +55,6 @@ export const tiersPersonnePhysiqueFields = [
         name: "Id_Nationalite",
         label: "Nationalité",
         type: "select",
-        api: `${BASE_URL}/Tiers/Nationalite/List?Include_Empty_Row=False`,
         mandatory: true,
         defaultValue: 1, // Retained
       },
@@ -80,14 +74,12 @@ export const tiersPersonnePhysiqueFields = [
         name: "Etat_Civil",
         label: "État Civil",
         type: "select",
-        api: `${BASE_URL}/Tiers/Etat_Civil/List?Include_Empty_Row=False`,
         mandatory: true,
       },
       {
         name: "Id_Profession",
         label: "Profession",
         type: "select",
-        api: `${BASE_URL}/Tiers/Profession/List?Include_Empty_Row=False`,
         mandatory: true,
       },
     ],
@@ -111,7 +103,6 @@ export const tiersPersonnePhysiqueFields = [
         name: "Regime_Matrimonial",
         label: "Régime Matrimonial",
         type: "select",
-        api: `${BASE_URL}/Tiers/Regime_Matrimonial/List?Include_Empty_Row=False`,
         mandatory: false,
       },
     ],
@@ -152,7 +143,7 @@ export const tiersPersonnePhysiqueFields = [
         name: "Adresse_Code_Pays",
         label: "Pays",
         type: "select",
-        api: `${BASE_URL}/Geo/Pays/List?Include_Empty_Row=False`,
+
         mandatory: true,
         defaultValue: "TUN", // Retained
       },
@@ -160,7 +151,6 @@ export const tiersPersonnePhysiqueFields = [
         name: "Adresse_Code_Gouvernorat",
         label: "Gouvernorat",
         type: "select",
-        api: `${BASE_URL}/Geo/Gouvernorat/List?Include_Empty_Row=False`,
         mandatory: true,
       },
       {
@@ -232,7 +222,6 @@ export const tiersPersonnePhysiqueFields = [
         name: "PID_Id_PID_Type",
         label: "Type de Pièce d'identité",
         type: "select",
-        api: `${BASE_URL}/Tiers/PID_Types/List?Include_Empty_Row=False`,
         mandatory: true,
         defaultValue: 1, // Retained
       },
