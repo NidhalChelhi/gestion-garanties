@@ -11,8 +11,6 @@ import {
   Option,
 } from "@/actions/tiersPersonnePhysique";
 import toast from "react-hot-toast";
-import { revalidatePath } from "next/cache";
-
 interface FormValues {
   [key: string]: string | number | null;
 }
@@ -46,7 +44,6 @@ const AddPersonnePhysiqueForm = ({
 
     try {
       await createTiersPersonnePhysique(normalizedData);
-      revalidatePath("/tiers-personne-physique");
       toast.success("Personne physique ajoutée avec succès !");
       reset();
     } catch (error: unknown) {

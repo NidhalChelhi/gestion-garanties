@@ -3,6 +3,7 @@
 import { TiersPersonnePhysique } from "@/types/TiersPersonnePhysique";
 import api, { apiCall } from "@/lib/apiClient";
 import { API_ENDPOINTS } from "@/lib/apiEndpoints";
+import { revalidatePath } from "next/cache";
 
 export interface Option {
   value: string | number;
@@ -40,9 +41,16 @@ export const getTiersPersonnePhysiqueById = async (
 export const createTiersPersonnePhysique = async (
   data: TiersPersonnePhysique,
 ): Promise<TiersPersonnePhysique | undefined> => {
-  return await apiCall(
-    api.post(API_ENDPOINTS.TIERS_PERSONNE_PHYSIQUE.BASE, data),
-  );
+  try {
+    const result = await apiCall(
+      api.post(API_ENDPOINTS.TIERS_PERSONNE_PHYSIQUE.BASE, data),
+    );
+    revalidatePath("/tiers-personne-physique");
+    return result;
+  } catch (error) {
+    console.error("Error creating TiersPersonnePhysique:", error);
+    return undefined;
+  }
 };
 
 /**
