@@ -1,15 +1,22 @@
+"use server"; // This ensures the entire file is treated as server-side
+
 import { TiersPersonnePhysique } from "@/types/TiersPersonnePhysique";
 import api, { apiCall } from "@/lib/apiClient";
 import { API_ENDPOINTS } from "@/lib/apiEndpoints";
+
+export interface Option {
+  value: string | number;
+  label: string;
+}
 
 /**
  * Fetch all TiersPersonnePhysique records
  * @returns {Promise<TiersPersonnePhysique[] | undefined>}
  */
-export const getAllTiersPersonnePhysique = (): Promise<
+export const getAllTiersPersonnePhysique = async (): Promise<
   TiersPersonnePhysique[] | undefined
 > => {
-  return apiCall(api.get(API_ENDPOINTS.TIERS_PERSONNE_PHYSIQUE.BASE));
+  return await apiCall(api.get(API_ENDPOINTS.TIERS_PERSONNE_PHYSIQUE.BASE));
 };
 
 /**
@@ -17,10 +24,12 @@ export const getAllTiersPersonnePhysique = (): Promise<
  * @param id - The ID of the TiersPersonnePhysique
  * @returns {Promise<TiersPersonnePhysique | undefined>}
  */
-export const getTiersPersonnePhysiqueById = (
+export const getTiersPersonnePhysiqueById = async (
   id: number,
 ): Promise<TiersPersonnePhysique | undefined> => {
-  return apiCall(api.get(API_ENDPOINTS.TIERS_PERSONNE_PHYSIQUE.BY_ID(id)));
+  return await apiCall(
+    api.get(API_ENDPOINTS.TIERS_PERSONNE_PHYSIQUE.BY_ID(id)),
+  );
 };
 
 /**
@@ -28,10 +37,12 @@ export const getTiersPersonnePhysiqueById = (
  * @param data - The data for the new TiersPersonnePhysique
  * @returns {Promise<TiersPersonnePhysique | undefined>}
  */
-export const createTiersPersonnePhysique = (
+export const createTiersPersonnePhysique = async (
   data: TiersPersonnePhysique,
 ): Promise<TiersPersonnePhysique | undefined> => {
-  return apiCall(api.post(API_ENDPOINTS.TIERS_PERSONNE_PHYSIQUE.BASE, data));
+  return await apiCall(
+    api.post(API_ENDPOINTS.TIERS_PERSONNE_PHYSIQUE.BASE, data),
+  );
 };
 
 /**
@@ -40,11 +51,11 @@ export const createTiersPersonnePhysique = (
  * @param data - The updated data for the TiersPersonnePhysique
  * @returns {Promise<TiersPersonnePhysique | undefined>}
  */
-export const updateTiersPersonnePhysique = (
+export const updateTiersPersonnePhysique = async (
   id: number,
   data: TiersPersonnePhysique,
 ): Promise<TiersPersonnePhysique | undefined> => {
-  return apiCall(
+  return await apiCall(
     api.put(API_ENDPOINTS.TIERS_PERSONNE_PHYSIQUE.BY_ID(id), data),
   );
 };
@@ -54,18 +65,13 @@ export const updateTiersPersonnePhysique = (
  * @param filter - The filter criteria
  * @returns {Promise<TiersPersonnePhysique[] | undefined>}
  */
-export const filterTiersPersonnePhysique = (
+export const filterTiersPersonnePhysique = async (
   filter: Record<string, unknown>,
 ): Promise<TiersPersonnePhysique[] | undefined> => {
-  return apiCall(
+  return await apiCall(
     api.post(API_ENDPOINTS.TIERS_PERSONNE_PHYSIQUE.FILTER, filter),
   );
 };
-
-export interface Option {
-  value: string | number;
-  label: string;
-}
 
 /**
  * Fetch options for a select input
